@@ -11,12 +11,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Скачать сервера
-        run: curl -L -o "🆓MSC VPN🗽.txt" "https://sub.obbhod.online/premium"
+      - name: Создать файл с названием и серверами
+        run: |
+          curl -L -o servers.txt "https://sub.obbhod.online/premium"
+          echo "#profile-title: 🆓MSC VPN🗽" > subscription.txt
+          echo "" >> subscription.txt
+          cat servers.txt >> subscription.txt
       - name: Сохранить
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add "🆓MSC VPN🗽.txt"
+          git add subscription.txt
           git diff --quiet && git diff --staged --quiet || git commit -m "update $(date -u +'%Y-%m-%d %H:%M:%S')"
           git push
