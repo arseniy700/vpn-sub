@@ -9,14 +9,19 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout репозитория
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Скачать сервера
+      - name: Скачать и очистить сервера
         run: |
-          curl -L -o subscription.txt "https://sub.obbhod.online/premium"
+          curl -L -o servers.txt "https://sub.obbhod.online/premium"
+          # Удаляем все пустые строки
+          sed -i '/^$/d' servers.txt
+          # Удаляем BOM (невидимые символы)
+          sed -i '1s/^\xEF\xBB\xBF//' servers.txt
+          mv servers.txt subscription.txt
 
-      - name: Сохранить изменения
+      - name: Сохранить
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
