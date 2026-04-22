@@ -11,8 +11,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Скачать сервера
-        run: curl -L -o subscription.txt "https://sub.obbhod.online/premium"
+      - name: Создать base64 с названием
+        run: |
+          curl -L -o servers.txt "https://sub.obbhod.online/premium"
+          (echo "#profile-title: 🆓MSC VPN🗽"; echo "") | cat - servers.txt > temp.txt
+          base64 -w 0 temp.txt > subscription.txt
       - name: Сохранить
         run: |
           git config user.name "github-actions"
