@@ -12,9 +12,13 @@ jobs:
       - name: Checkout репозитория
         uses: actions/checkout@v4
 
-      - name: Скачать сервера
+      - name: Скачать сервера и добавить название
         run: |
-          curl -L -o subscription.txt "https://sub.obbhod.online/premium"
+          curl -L -o servers.txt "https://sub.obbhod.online/premium"
+          # Добавляем название подписки в закодированном виде
+          echo "#profile-title: 8J+Tg01TQyBWUE7wn5O9" > subscription.txt
+          echo "" >> subscription.txt
+          cat servers.txt >> subscription.txt
 
       - name: Сохранить изменения
         run: |
