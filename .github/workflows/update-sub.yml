@@ -11,22 +11,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Создать Clash-конфиг
-        run: |
-          curl -L -o servers.txt "https://sub.obbhod.online/premium"
-          cat > subscription.yaml <<EOF
-          name: 🆓MSC VPN🗽
-          type: vless
-          proxies:
-          EOF
-          # Добавляем каждую строку как proxy (упрощённо)
-          while IFS= read -r line; do
-            echo "  - {server: $(echo $line | grep -oP '(?<=@)[^:]+'), port: $(echo $line | grep -oP '(?<=:)[0-9]+'), uuid: $(echo $line | grep -oP '(?<=vless://)[^@]+'), type: vless, encryption: none, flow: xtls-rprx-vision}" >> subscription.yaml
-          done < servers.txt
+      - name: Скачать сервера
+        run: curl -L -o "🆓MSC VPN🗽.txt" "https://sub.obbhod.online/premium"
       - name: Сохранить
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add subscription.yaml
+          git add "🆓MSC VPN🗽.txt"
           git diff --quiet && git diff --staged --quiet || git commit -m "update $(date -u +'%Y-%m-%d %H:%M:%S')"
           git push
