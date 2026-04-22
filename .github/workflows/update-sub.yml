@@ -15,7 +15,7 @@ jobs:
       - name: Скачать сервера и добавить название
         run: |
           curl -L -o servers.txt "https://sub.obbhod.online/premium"
-          echo "#PROFILE#: 🆓MSC VPN🗽" > subscription.txt
+          echo "#profile-title: 🆓MSC VPN🗽" > subscription.txt
           echo "" >> subscription.txt
           cat servers.txt >> subscription.txt
 
