@@ -12,17 +12,13 @@ jobs:
       - name: Checkout репозитория
         uses: actions/checkout@v4
 
-      - name: Создать base64 подписку с названием
+      - name: Скачать сервера и добавить название
         run: |
-          # Скачиваем сервера
           curl -L -o servers.txt "https://sub.obbhod.online/premium"
-          # Создаём временный файл с названием и серверами
-          echo "#profile-title: 🆓MSC VPN🗽" > temp.txt
-          echo "" >> temp.txt
-          cat servers.txt >> temp.txt
-          # Кодируем в base64 и добавляем префикс для Happ
-          echo -n "data:application/vnd.nekobox;base64," > subscription.txt
-          base64 -w 0 temp.txt >> subscription.txt
+          # Добавляем название перед списком серверов (важно!)
+          echo "#profile-title: 🆓MSC VPN🗽" > subscription.txt
+          echo "" >> subscription.txt
+          cat servers.txt >> subscription.txt
 
       - name: Сохранить изменения
         run: |
