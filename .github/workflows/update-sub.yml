@@ -12,13 +12,9 @@ jobs:
       - name: Checkout репозитория
         uses: actions/checkout@v4
 
-      - name: Скачать сервера и добавить название
+      - name: Скачать сервера
         run: |
-          curl -L -o servers.txt "https://sub.obbhod.online/premium"
-          # Для Clash/Sing-box/Nekobox: название читается из первой строки
-          echo "#profile-title: 🆓MSC VPN🗽" > subscription.txt
-          echo "" >> subscription.txt
-          cat servers.txt >> subscription.txt
+          curl -L -o subscription.txt "https://sub.obbhod.online/premium"
 
       - name: Сохранить изменения
         run: |
