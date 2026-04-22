@@ -2,8 +2,8 @@ name: Обновление подписки каждые 30 минут
 
 on:
   schedule:
-    - cron: '*/30 * * * *'   # каждые 30 минут
-  workflow_dispatch:          # чтобы можно было запустить вручную
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
 
 jobs:
   update:
@@ -12,14 +12,17 @@ jobs:
       - name: Checkout репозитория
         uses: actions/checkout@v4
 
-      - name: Скачать свежие сервера
+      - name: Скачать сервера и добавить название
         run: |
-          curl -L -o subscription.txt "https://sub.obbhod.online/premium"
+          curl -L -o servers.txt "https://sub.obbhod.online/premium"
+          echo "#PROFILE#: 🆓MSC VPN🗽" > subscription.txt
+          echo "" >> subscription.txt
+          cat servers.txt >> subscription.txt
 
-      - name: Сохранить изменения в репозиторий
+      - name: Сохранить изменения
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add subscription.txt
-          git diff --quiet && git diff --staged --quiet || git commit -m "Автообновление подписки $(date -u +'%Y-%m-%d %H:%M:%S')"
+          git diff --quiet && git diff --staged --quiet || git commit -m "Автообновление $(date -u +'%Y-%m-%d %H:%M:%S')"
           git push
