@@ -9,18 +9,17 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout репозитория
         uses: actions/checkout@v4
-      - name: Создать файл с названием и серверами
+
+      - name: Скачать сервера
         run: |
-          curl -L -o servers.txt "https://sub.obbhod.online/premium"
-          echo "#profile-title: 🆓MSC VPN🗽" > subscription.txt
-          echo "" >> subscription.txt
-          cat servers.txt >> subscription.txt
-      - name: Сохранить
+          curl -L -o subscription.txt "https://sub.obbhod.online/premium"
+
+      - name: Сохранить изменения
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add subscription.txt
-          git diff --quiet && git diff --staged --quiet || git commit -m "update $(date -u +'%Y-%m-%d %H:%M:%S')"
+          git diff --quiet && git diff --staged --quiet || git commit -m "Автообновление $(date -u +'%Y-%m-%d %H:%M:%S')"
           git push
